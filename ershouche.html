@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:16px">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimum-scale=1">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="./css/reset.css">
+	<link rel="stylesheet" type="text/css" href="./css/ershouche.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+	<script src="./js/vue.js"></script>
+    <script src="./js/jquery-3.2.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+</head>
+<body>
+    <div id="main">
+		<header>
+			<div class="header">
+				<div class="flexbox">
+					<a href="javascript:history.back();" class="head-back"></a>
+					<a href="
+					#" class="city_wrap">
+					<span class="switch_city">背景<i class="icon_pull"></i></span>
+					</a>
+				</div>
+				<a href="#" class="logo"><span></span></a>
+				<a href="#"class="user"><i></i></a>
+			</div>
+		</header>
+		<!-- 筛选列表顶部 -->
+		<section class="select_top" v-show="maskShow">
+			 <header class="layer_fixed">
+			 	<div class="layer-item" @click="selectRegion()" :class="selectRegions ? 'active': ''">
+			 		<span>{{ area_title }}</span><i class="icon-down"></i>
+			 	</div>
+			 	<div class="layer-item" @click="selectPrice()":class="selectPrices ? 'active': ''">
+			 		<span>{{ price_title}}</span><i class="icon-down"></i>
+			 	</div>
+			 	<div class="layer-item" @click="selectInfo()":class="selectInfos ? 'active': ''">
+			 		<span>{{ type_title }}</span><i class="icon-down"></i>
+			 	</div>
+			 	<div class="layer-item" @click="selectMore()":class="selectMores ? 'active': ''">
+			 		<span>{{ more_title }}</span><i class="icon-down"></i>
+			 	</div>
+			 </header>
+			 <div class="content-box">
+			 	<div class="area" v-show="selectRegions">
+			 	    <div class="nav">
+				 		<ul class="area-title">
+				 			<li :class="areaTab? 'liActive':''"  @click="area()">区域</li>
+				 			<li :class="subwayTab? 'liActive':''"  @click="subway()">地铁</li>
+				 		</ul>
+			 		</div>
+			 		<div class="area-con">
+			 			<ul>
+			 				<li v-for="(item,index) in regions" @click="citys(item,index)" v-bind:class="{ active : index == selectItem }">{{ item.name }}</li>
+			 			</ul>
+			 		</div>
+			 		<div class="cont" v-show="cityShow">
+			 			<ul>
+			 				<li v-for="(item,index) in region2" @click="regionSelect(item,index)" v-bind:class="{ active : index == selectIt }">{{ item.name }}</li>
+			 			</ul>
+			 		</div>
+			 	</div>
+			 	<div class="price"  v-show="selectPrices">
+			 		价格
+			 	</div>
+			 	<div class="Info" v-show="selectInfos">
+			 		<ul>
+			 			<li v-for="item in house_type" @click="type(item)" v-bind:class=" item.sel?'active':''">{{ item.name }}</li>
+			 		</ul>
+			 		<a href="#" class="sure" @click="typesure()">确定</a>
+			 	</div>
+			 	<div class="more" v-show="selectMores">
+			 		<div class="direct">
+			 			<h5 class="title">朝向</h5>
+			 			<ul class="clearfix" v-if="orientations">
+			 				<li v-for="item in orientations" @click="sele(item)"><a href="#" 
+			 				:class="item.sel ? 'active':''">{{ item.name }}</a></li>
+			 			</ul>
+			 		</div>
+			 		<div class="arealist">
+			 			<h5 class="title">面积</h5>
+			 			<ul class="clearfix">
+			 			    <li><a href="#">不限</a></li>
+			 				<li><a href="#">不限</a></li>
+			 				<li><a href="#">不限</a></li>
+			 				<li><a href="#">不限</a></li>
+			 			</ul>
+			 		</div>
+			 		<div class="labels">
+			 			<h5 class="title">标签</h5>
+			 			<ul class="clearfix">
+			 				<li v-for="item in tabs"@click="tab(item)"><a href="#" 
+			 				:class="item.sel ? 'active':''">{{ item.name }}</a></li>
+			 			</ul>
+			 		</div>
+			 		<div class="opt_box">
+			 			<a href="#" class="clear" @click="clear()">清空条件</a>
+			 			<a href="#" class="sure" @click="sure()">确定</a>
+			 		</div>
+			 	</div>
+			 </div>
+		</section>
+		<!-- 搜索框 -->
+		<div class="searchbox">
+		    <a href="#" class="seach">
+		    	<i class="find"></i>
+		    	<input type="text" placeholder="请输入小区或商圈名~" class="find_input">
+		    </a>
+			<div class="banner">
+			    <div class="swiper-container">
+			         <div class="swiper-wrapper">
+			            <img src="./image/phpyVskZa.jpeg.500x280.jpg" alt="" class="swiper-slide">
+			         </div>
+			    </div>
+			</div>
+		</div>
+		<!-- 导航 -->
+	    <ul class="lead">
+			<li>
+				<a href="#">
+					<img src="./image/phphOykoz.png.144x144.png" alt="">
+					<p>智能找房</p>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img src="./image/phpKy8gb4.png.144x144.png" alt="">
+					<p>智能找房</p>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img src="./image/phpQHFL7t.png.144x144.png" alt="">
+					<p>智能找房</p>
+				</a>
+			</li>
+		</ul>
+		<!-- 智能推荐 -->
+		<div class="commend">
+			<div class="com-title">为您推荐</div>
+			<div class="com-list clearfix">
+				<div class="com-item ">
+					<div class="mask"></div>
+					<img src="./image/phpmVucxY.jpeg.500x280.jpg" alt="">
+					<div class="item-info">
+						<h3>适合小两口的生活之家</h3>
+						<p>500万内帮您安家北京</p>
+					</div>
+				</div>
+				<div class="com-item ">
+					<div class="mask"></div>
+					<img src="./image/phpmVucxY.jpeg.500x280.jpg" alt="">
+					<div class="item-info">
+						<h3>适合小两口的生活之家</h3>
+						<p>500万内帮您安家北京</p>
+					</div>
+				</div>
+				<div class="com-item ">
+					<div class="mask"></div>
+					<img src="./image/phpmVucxY.jpeg.500x280.jpg" alt="">
+					<div class="item-info">
+						<h3>适合小两口的生活之家</h3>
+						<p>500万内帮您安家北京</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 筛选 -->
+		<div class="select">
+			<div class="tabbar">
+				<div class="tabtit" @click="selectRegion()">
+					<h2>{{ area_title }}</h2>
+					<i class="icon-down"></i>
+				</div>
+				<div class="tabtit" @click="selectPrice()">
+					<h2>{{ price_title }}</h2>
+					<i class="icon-down"></i>
+				</div>
+				<div class="tabtit" @click="selectInfo()">
+					<h2>{{ type_title }}</h2>
+					<i class="icon-down"></i>
+				</div>
+				<div class="tabtit" @click="selectMore()">
+					<h2>{{ more_title }}</h2>
+					<i class="icon-down"></i>
+				</div>
+			</div>
+			<ul class="tabcon">
+				<li class="con-item" v-for="item in house_lists">
+				    <a :href="'info.html?id='+item.id" class="masks"></a>
+					<div class="img">
+						<img src="./image/rsp_pic_upload70a93031-3527-49b2-8d8f-b65d6b82149e.jpg.210x164.jpg" alt="">
+						<span class="good">优选</span>
+					</div>
+					<div class="item-infomation">
+						<div class="item-main">
+							榆树馆西里，南北通透，满五年唯一精装小三居
+						</div>
+						<div class="item_other">
+							{{ item.type }}/{{ item.area }}m²/南 北/榆树馆西里
+						</div>
+						<div class="item_mior">
+							<span class="price_total"><em>639</em><span>万</span></span>
+							<span class="unit_price">{{item.unit_price}}元/平</span>
+						</div>
+						<div class="tag_box">
+							<span class="subway_house">地铁</span>
+							<span class="five">{{ item.tab[1] }}</span>
+							<span class="haskey">随时看房</span>
+							<span class="new">{{ item.tab[2] }}</span>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		{{this.tabs}}
+    </div>
+<script type="text/javascript" src="./js/ershoufang.js"></script>
+</body>
+</html>
